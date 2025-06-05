@@ -1,0 +1,6 @@
+services:
+  item-power-calculator:
+    build: .
+    ports:
+      - "8069:80"
+    restart: unless-stopped
