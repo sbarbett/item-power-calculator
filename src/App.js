@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 // Tooltip helper
@@ -30,7 +30,6 @@ export default function App() {
   const [con, setCon] = useState(0);
   const [intell, setIntell] = useState(0);
   const [wis, setWis] = useState(0);
-  const [cha, setCha] = useState(0);
   const [hp, setHp] = useState(0);
   const [mana, setMana] = useState(0);
   const [move, setMove] = useState(0);
@@ -59,10 +58,14 @@ export default function App() {
   const [critChanceRaw, setCritChanceRaw] = useState(0);
   const [critDamageRaw, setCritDamageRaw] = useState(0);
   const [penetrationRaw, setPenetrationRaw] = useState(0);
+  const [potencyRaw, setPotencyRaw] = useState(0);
+  const [celerityRaw, setCelerityRaw] = useState(0);
+  const [alacrityRaw, setAlacrityRaw] = useState(0);
   const [recuperationRaw, setRecuperationRaw] = useState(0);
   const [concentrationRaw, setConcentrationRaw] = useState(0);
   const [enduranceRaw, setEnduranceRaw] = useState(0);
   const [prosperityRaw, setProsperityRaw] = useState(0);
+  const [insightRaw, setInsightRaw] = useState(0);
 
   // Item type
   const [itemType, setItemType] = useState("weapon");
@@ -119,13 +122,115 @@ export default function App() {
   const critChancePS = (Number(critChanceRaw) / 100) * 10;
   const critDamagePS = (Number(critDamageRaw) / 100) * 8;
   const penetrationPS = (Number(penetrationRaw) / 100) * 5;
+  const potencyPS = (Number(potencyRaw) / 100) * 6;
+  const celerityPS = (Number(celerityRaw) / 100) * 5;
+  const alacrityPS = (Number(alacrityRaw) / 100) * 3;
   const recuperationPS = (Number(recuperationRaw) / 100) * 2;
   const concentrationPS = (Number(concentrationRaw) / 100) * 2;
   const endurancePS = (Number(enduranceRaw) / 100) * 2;
   const prosperityPS = (Number(prosperityRaw) / 100) * 1;
+  const insightPS = (Number(insightRaw) / 100) * 1;
 
   // Replace all individual saving throws with a single saves field
   const [saves, setSaves] = useState(0);
+
+  // JSON text area state
+  const [jsonText, setJsonText] = useState("");
+  const [isEditingJson, setIsEditingJson] = useState(false);
+
+  // Function to generate JSON from current form state
+  const generateJsonFromForm = () => {
+    const formData = {
+      itemType,
+      hr: Number(hr),
+      dr: Number(dr),
+      str: Number(str),
+      dex: Number(dex),
+      con: Number(con),
+      intell: Number(intell),
+      wis: Number(wis),
+      hp: Number(hp),
+      mana: Number(mana),
+      move: Number(move),
+      saves: Number(saves),
+      specificResists,
+      spellaffectCount: Number(spellaffectCount),
+      spellcastCount: Number(spellcastCount),
+      critChanceRaw: Number(critChanceRaw),
+      critDamageRaw: Number(critDamageRaw),
+      penetrationRaw: Number(penetrationRaw),
+      potencyRaw: Number(potencyRaw),
+      celerityRaw: Number(celerityRaw),
+      alacrityRaw: Number(alacrityRaw),
+      recuperationRaw: Number(recuperationRaw),
+      concentrationRaw: Number(concentrationRaw),
+      enduranceRaw: Number(enduranceRaw),
+      prosperityRaw: Number(prosperityRaw),
+      insightRaw: Number(insightRaw),
+      numDice: Number(numDice),
+      diceSides: Number(diceSides),
+      specialTypes,
+      acValues,
+    };
+    return JSON.stringify(formData, null, 2);
+  };
+
+  // Function to update form from JSON
+  const updateFormFromJson = (jsonString) => {
+    try {
+      const data = JSON.parse(jsonString);
+      
+      // Update all form fields from JSON data
+      if (data.itemType !== undefined) setItemType(data.itemType);
+      if (data.hr !== undefined) setHr(data.hr);
+      if (data.dr !== undefined) setDr(data.dr);
+      if (data.str !== undefined) setStr(data.str);
+      if (data.dex !== undefined) setDex(data.dex);
+      if (data.con !== undefined) setCon(data.con);
+      if (data.intell !== undefined) setIntell(data.intell);
+      if (data.wis !== undefined) setWis(data.wis);
+      if (data.hp !== undefined) setHp(data.hp);
+      if (data.mana !== undefined) setMana(data.mana);
+      if (data.move !== undefined) setMove(data.move);
+      if (data.saves !== undefined) setSaves(data.saves);
+      if (data.specificResists !== undefined) setSpecificResists(data.specificResists);
+      if (data.spellaffectCount !== undefined) setSpellaffectCount(data.spellaffectCount);
+      if (data.spellcastCount !== undefined) setSpellcastCount(data.spellcastCount);
+      if (data.critChanceRaw !== undefined) setCritChanceRaw(data.critChanceRaw);
+      if (data.critDamageRaw !== undefined) setCritDamageRaw(data.critDamageRaw);
+      if (data.penetrationRaw !== undefined) setPenetrationRaw(data.penetrationRaw);
+      if (data.potencyRaw !== undefined) setPotencyRaw(data.potencyRaw);
+      if (data.celerityRaw !== undefined) setCelerityRaw(data.celerityRaw);
+      if (data.alacrityRaw !== undefined) setAlacrityRaw(data.alacrityRaw);
+      if (data.recuperationRaw !== undefined) setRecuperationRaw(data.recuperationRaw);
+      if (data.concentrationRaw !== undefined) setConcentrationRaw(data.concentrationRaw);
+      if (data.enduranceRaw !== undefined) setEnduranceRaw(data.enduranceRaw);
+      if (data.prosperityRaw !== undefined) setProsperityRaw(data.prosperityRaw);
+      if (data.insightRaw !== undefined) setInsightRaw(data.insightRaw);
+      if (data.numDice !== undefined) setNumDice(data.numDice);
+      if (data.diceSides !== undefined) setDiceSides(data.diceSides);
+      if (data.specialTypes !== undefined) setSpecialTypes(data.specialTypes);
+      if (data.acValues !== undefined) setAcValues(data.acValues);
+      
+      return true;
+    } catch (error) {
+      console.error("Invalid JSON:", error);
+      return false;
+    }
+  };
+
+  // Update JSON text when form changes (only if not actively editing JSON)
+  useEffect(() => {
+    if (!isEditingJson) {
+      setJsonText(generateJsonFromForm());
+    }
+  }, [
+    itemType, hr, dr, str, dex, con, intell, wis, hp, mana, move, saves,
+    specificResists, spellaffectCount, spellcastCount, critChanceRaw, critDamageRaw,
+    penetrationRaw, potencyRaw, celerityRaw, alacrityRaw, recuperationRaw,
+    concentrationRaw, enduranceRaw, prosperityRaw, insightRaw, numDice, diceSides,
+    specialTypes, acValues
+  ]);
 
   // Count specific resistances
   const numSpecificResistX = Object.values(specificResists).filter(Boolean).length;
@@ -136,7 +241,7 @@ export default function App() {
     Number(dr) +
     -Number(saves) +
     (itemType === "armor" ? acTotal : 0) +
-    2 * (Number(str) + Number(dex) + Number(con) + Number(intell) + Number(wis) + Number(cha)) +
+    2 * (Number(str) + Number(dex) + Number(con) + Number(intell) + Number(wis)) +
     0.1 * (Number(hp) + Number(mana) + Number(move)) +
     10 * numSpecificResistX +
     15 * Number(spellaffectCount) +
@@ -146,10 +251,14 @@ export default function App() {
     critChancePS +
     critDamagePS +
     penetrationPS +
+    potencyPS +
+    celerityPS +
+    alacrityPS +
     recuperationPS +
     concentrationPS +
     endurancePS +
-    prosperityPS;
+    prosperityPS +
+    insightPS;
 
   // Reset all fields to default values
   const resetAll = () => {
@@ -160,7 +269,6 @@ export default function App() {
     setCon(0);
     setIntell(0);
     setWis(0);
-    setCha(0);
     setHp(0);
     setMana(0);
     setMove(0);
@@ -183,10 +291,14 @@ export default function App() {
     setCritChanceRaw(0);
     setCritDamageRaw(0);
     setPenetrationRaw(0);
+    setPotencyRaw(0);
+    setCelerityRaw(0);
+    setAlacrityRaw(0);
     setRecuperationRaw(0);
     setConcentrationRaw(0);
     setEnduranceRaw(0);
     setProsperityRaw(0);
+    setInsightRaw(0);
     setItemType("weapon");
     setNumDice(0);
     setDiceSides(0);
@@ -373,14 +485,7 @@ export default function App() {
             onChange={(e) => setWis(e.target.value)}
           />
         </label>
-        <label>
-          Cha <Tooltip text="+2 per Cha" />
-          <input
-            type="number"
-            value={cha}
-            onChange={(e) => setCha(e.target.value)}
-          />
-        </label>
+        {/* REMOVED: Cha stat */}
         {/* HP / Mana / Move */}
         <label>
           HP <Tooltip text="+0.1 per HP" />
@@ -488,6 +593,30 @@ export default function App() {
             onChange={(e) => setPenetrationRaw(e.target.value)}
           />
         </label>
+                 <label>
+           Potency (raw) <Tooltip text="+6 × (raw/100)" />
+           <input
+             type="number"
+             value={potencyRaw}
+             onChange={(e) => setPotencyRaw(e.target.value)}
+           />
+         </label>
+         <label>
+           Celerity (raw) <Tooltip text="+5 × (raw/100)" />
+           <input
+             type="number"
+             value={celerityRaw}
+             onChange={(e) => setCelerityRaw(e.target.value)}
+           />
+         </label>
+         <label>
+           Alacrity (raw) <Tooltip text="+3 × (raw/100)" />
+           <input
+             type="number"
+             value={alacrityRaw}
+             onChange={(e) => setAlacrityRaw(e.target.value)}
+           />
+         </label>
         <label>
           Recuperation (raw) <Tooltip text="+2 × (raw/100)" />
           <input
@@ -520,6 +649,63 @@ export default function App() {
             onChange={(e) => setProsperityRaw(e.target.value)}
           />
         </label>
+                 <label>
+           Insight (raw) <Tooltip text="+1 × (raw/100)" />
+           <input
+             type="number"
+             value={insightRaw}
+             onChange={(e) => setInsightRaw(e.target.value)}
+           />
+         </label>
+      </div>
+
+      {/* JSON Text Area */}
+      <div className="section">
+        <h3>Item Template (JSON)</h3>
+        <p style={{ fontSize: '0.9em', color: '#666', marginBottom: '8px' }}>
+          Edit this JSON to update the form, or modify the form to update this JSON. 
+          You can save item templates as JSON files and paste them here.
+        </p>
+        <div style={{ marginBottom: '8px' }}>
+          <button 
+            onClick={() => navigator.clipboard.writeText(jsonText)}
+            style={{ 
+              padding: '6px 12px', 
+              borderRadius: 4, 
+              background: '#2563eb', 
+              color: 'white', 
+              border: 'none', 
+              cursor: 'pointer',
+              fontSize: '0.9em'
+            }}
+          >
+            Copy JSON
+          </button>
+        </div>
+        <textarea
+          value={jsonText}
+          onChange={(e) => {
+            setIsEditingJson(true);
+            setJsonText(e.target.value);
+            const success = updateFormFromJson(e.target.value);
+            if (success) {
+              // If JSON is valid, stop editing mode after a short delay
+              setTimeout(() => setIsEditingJson(false), 100);
+            }
+          }}
+          onBlur={() => setIsEditingJson(false)}
+          style={{ 
+            width: '100%', 
+            height: '200px', 
+            fontSize: '0.9em', 
+            padding: '12px', 
+            borderRadius: 6, 
+            border: '1px solid #ccc',
+            fontFamily: 'monospace',
+            lineHeight: '1.4'
+          }}
+          placeholder="Paste your item template JSON here..."
+        />
       </div>
 
       {/* Display the computed Power Score */}
