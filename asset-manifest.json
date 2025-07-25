@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/item-power-calculator/static/css/main.2333bfe7.css",
+    "main.js": "/item-power-calculator/static/js/main.b39c9e92.js",
+    "index.html": "/item-power-calculator/index.html",
+    "main.2333bfe7.css.map": "/item-power-calculator/static/css/main.2333bfe7.css.map",
+    "main.b39c9e92.js.map": "/item-power-calculator/static/js/main.b39c9e92.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2333bfe7.css",
+    "static/js/main.b39c9e92.js"
+  ]
+}
