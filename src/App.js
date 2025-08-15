@@ -66,6 +66,7 @@ export default function App() {
   const [enduranceRaw, setEnduranceRaw] = useState(0);
   const [prosperityRaw, setProsperityRaw] = useState(0);
   const [insightRaw, setInsightRaw] = useState(0);
+  const [bountyRaw, setBountyRaw] = useState(0);
 
   // Item type
   const [itemType, setItemType] = useState("weapon");
@@ -130,6 +131,7 @@ export default function App() {
   const endurancePS = (Number(enduranceRaw) / 100) * 2;
   const prosperityPS = (Number(prosperityRaw) / 100) * 1;
   const insightPS = (Number(insightRaw) / 100) * 1;
+  const bountyPS = (Number(bountyRaw) / 100) * 1;
 
   // Replace all individual saving throws with a single saves field
   const [saves, setSaves] = useState(0);
@@ -167,6 +169,7 @@ export default function App() {
       enduranceRaw: Number(enduranceRaw),
       prosperityRaw: Number(prosperityRaw),
       insightRaw: Number(insightRaw),
+      bountyRaw: Number(bountyRaw),
       numDice: Number(numDice),
       diceSides: Number(diceSides),
       specialTypes,
@@ -207,6 +210,7 @@ export default function App() {
       if (data.enduranceRaw !== undefined) setEnduranceRaw(data.enduranceRaw);
       if (data.prosperityRaw !== undefined) setProsperityRaw(data.prosperityRaw);
       if (data.insightRaw !== undefined) setInsightRaw(data.insightRaw);
+      if (data.bountyRaw !== undefined) setBountyRaw(data.bountyRaw);
       if (data.numDice !== undefined) setNumDice(data.numDice);
       if (data.diceSides !== undefined) setDiceSides(data.diceSides);
       if (data.specialTypes !== undefined) setSpecialTypes(data.specialTypes);
@@ -228,7 +232,7 @@ export default function App() {
     itemType, hr, dr, str, dex, con, intell, wis, hp, mana, move, saves,
     specificResists, spellaffectCount, spellcastCount, critChanceRaw, critDamageRaw,
     penetrationRaw, potencyRaw, celerityRaw, alacrityRaw, recuperationRaw,
-    concentrationRaw, enduranceRaw, prosperityRaw, insightRaw, numDice, diceSides,
+    concentrationRaw, enduranceRaw, prosperityRaw, insightRaw, bountyRaw, numDice, diceSides,
     specialTypes, acValues
   ]);
 
@@ -258,7 +262,8 @@ export default function App() {
     concentrationPS +
     endurancePS +
     prosperityPS +
-    insightPS;
+    insightPS +
+    bountyPS;
 
   // Reset all fields to default values
   const resetAll = () => {
@@ -299,6 +304,7 @@ export default function App() {
     setEnduranceRaw(0);
     setProsperityRaw(0);
     setInsightRaw(0);
+    setBountyRaw(0);
     setItemType("weapon");
     setNumDice(0);
     setDiceSides(0);
@@ -649,14 +655,22 @@ export default function App() {
             onChange={(e) => setProsperityRaw(e.target.value)}
           />
         </label>
-                 <label>
-           Insight (raw) <Tooltip text="+1 × (raw/100)" />
-           <input
-             type="number"
-             value={insightRaw}
-             onChange={(e) => setInsightRaw(e.target.value)}
-           />
-         </label>
+                         <label>
+          Insight (raw) <Tooltip text="+1 × (raw/100)" />
+          <input
+            type="number"
+            value={insightRaw}
+            onChange={(e) => setInsightRaw(e.target.value)}
+          />
+        </label>
+        <label>
+          Bounty (raw) <Tooltip text="+1 × (raw/100)" />
+          <input
+            type="number"
+            value={bountyRaw}
+            onChange={(e) => setBountyRaw(e.target.value)}
+          />
+        </label>
       </div>
 
       {/* JSON Text Area */}
