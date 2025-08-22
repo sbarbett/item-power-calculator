@@ -2,7 +2,7 @@
   "name": "item-power-calculator",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://sbarbetta.github.io/item-power-calculator",
+  "homepage": "https://calculator.acropolismud.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
